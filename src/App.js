@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import DictionaryEntry from './components/DictionaryEntry';
+import NewEntryForm from './components/NewEntryForm';
 
 function App() {
+  const [entries, setEntries] = useState([]);
+
+  const addEntry = (entry) => {
+    setEntries([...entries, entry]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="min-h-screen bg-white p-4 md:p-8 font-sans text-gray-900">
+      <header className="mb-4 md:mb-8 text-center">
+        <h1 className="text-2xl md:text-3xl font-semibold">Dictionary</h1>
+        <p className="text-gray-500 text-sm md:text-base">Minimal dictionary for phrases and meanings</p>
       </header>
+      <div className="max-w-md mx-auto">
+        <NewEntryForm addEntry={addEntry} />
+        <div className="mt-4 md:mt-6 space-y-4">
+          {entries.map((entry, index) => (
+            <DictionaryEntry key={index} phrase={entry.phrase} meaning={entry.meaning} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
