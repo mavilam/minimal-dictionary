@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DictionaryEntry from './components/DictionaryEntry';
 import NewEntryForm from './components/NewEntryForm';
 
 function App() {
   const [entries, setEntries] = useState([]);
 
+  useEffect(() => {
+    const storedEntries = localStorage.getItem('dictionaryEntries');
+    if (storedEntries) {
+      setEntries(JSON.parse(storedEntries));
+    }
+  }, []);
+
   const addEntry = (entry) => {
-    setEntries([...entries, entry]);
+    const updatedEntries = [...entries, entry];
+    setEntries(updatedEntries);
+    localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries));
   };
 
   return (
