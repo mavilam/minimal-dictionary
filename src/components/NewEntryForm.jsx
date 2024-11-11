@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React, { useState } from 'react'
+import classNames from 'classnames'
 
 function NewEntryForm({ addEntry }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [phrase, setPhrase] = useState('');
-  const [meaning, setMeaning] = useState('');
+  const [isOpen, setIsOpen] = useState(false)
+  const [phrase, setPhrase] = useState('')
+  const [meaning, setMeaning] = useState('')
 
-  const toggleForm = () => setIsOpen(!isOpen);
+  const toggleForm = () => setIsOpen(!isOpen)
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (phrase && meaning) {
-      addEntry({ phrase, meaning });
-      setPhrase('');
-      setMeaning('');
-      setIsOpen(false);
+      addEntry({ phrase, meaning })
+      setPhrase('')
+      setMeaning('')
+      setIsOpen(false)
     }
-  };
+  }
 
-  const buttonStyles = 'w-full py-2 font-medium rounded-md text-sm md:text-base';
-  const inputStyles = 'bg-white border border-gray-300 rounded-md w-full py-2 px-3 text-sm md:text-base focus:outline-none focus:border-gray-500';
-  const formContainerStyles = 'bg-gray-100 shadow-sm rounded-lg p-4 mb-4 md:mb-6';
+  const buttonStyles = 'w-full py-2 font-medium rounded-md text-sm md:text-base'
+  const inputStyles = 'bg-white border border-gray-300 rounded-md w-full py-2 px-3 text-sm md:text-base focus:outline-none focus:border-gray-500'
+  const formContainerStyles = 'bg-gray-100 shadow-sm rounded-lg p-4 mb-4 md:mb-6'
 
   return (
     <div>
@@ -67,7 +67,7 @@ function NewEntryForm({ addEntry }) {
         </form>
       )}
     </div>
-  );
+  )
 }
 
-export default NewEntryForm;
+export default NewEntryForm

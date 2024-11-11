@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import DictionaryEntry from './components/DictionaryEntry';
-import NewEntryForm from './components/NewEntryForm';
+import React, { useState, useEffect } from 'react'
+import DictionaryEntry from './components/DictionaryEntry'
+import NewEntryForm from './components/NewEntryForm'
 
 function App() {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState([])
 
   useEffect(() => {
-    const storedEntries = localStorage.getItem('dictionaryEntries');
+    const storedEntries = localStorage.getItem('dictionaryEntries')
     if (storedEntries) {
-      setEntries(JSON.parse(storedEntries));
+      setEntries(JSON.parse(storedEntries))
     }
-  }, []);
+  }, [])
 
   const addEntry = (entry) => {
-    const updatedEntries = [...entries, entry];
-    setEntries(updatedEntries);
-    localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries));
-  };
+    const updatedEntries = [...entries, entry]
+    setEntries(updatedEntries)
+    localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))
+  }
+
+  const deleteEntry = (entryToDelete) => {
+    const updatedEntries = entries.filter(entry => entry !== entryToDelete)
+    setEntries(updatedEntries)
+    localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))
+  }
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8 font-sans text-gray-900">
@@ -28,12 +34,12 @@ function App() {
         <NewEntryForm addEntry={addEntry} />
         <div className="mt-4 md:mt-6 space-y-4">
           {entries.map((entry, index) => (
-            <DictionaryEntry key={index} phrase={entry.phrase} meaning={entry.meaning} />
+            <DictionaryEntry key={index} entry={entry} deleteEntry={deleteEntry} />
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
