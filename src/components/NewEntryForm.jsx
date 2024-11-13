@@ -28,7 +28,7 @@ function NewEntryForm({ addEntry }) {
         onClick={toggleForm}
         className={classNames(buttonStyles, 'bg-gray-900 text-white hover:bg-gray-700 transition-colors mb-4')}
       >
-        {isOpen ? 'Cerrar' : 'Agregar nueva entrada'}
+        {isOpen ? 'Close' : 'Add new entry'}
       </button>
       {isOpen && (
         <form onSubmit={handleSubmit} className={formContainerStyles}>

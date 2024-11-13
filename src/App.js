@@ -27,8 +27,8 @@ function App() {
   return (
     <div className="min-h-screen bg-white p-4 md:p-8 font-sans text-gray-900">
       <header className="mb-4 md:mb-8 text-center">
-        <h1 className="text-2xl md:text-3xl font-semibold">Dictionary</h1>
-        <p className="text-gray-500 text-sm md:text-base">Minimal dictionary for phrases and meanings</p>
+        <h1 className="text-2xl md:text-3xl font-semibold">Lexio</h1>
+        <p className="text-gray-500 text-sm md:text-base">where concepts meet meanings</p>
       </header>
       <div className="max-w-md mx-auto">
         <NewEntryForm addEntry={addEntry} />
