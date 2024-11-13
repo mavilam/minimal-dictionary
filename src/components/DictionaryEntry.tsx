@@ -1,9 +1,20 @@
 import React from 'react'
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip} from "@nextui-org/react"
-import {DeleteIcon} from "./DeleteIcon"
-import {EditIcon} from "./EditIcon"
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Tooltip } from "@nextui-org/react"
+import { DeleteIcon } from "./DeleteIcon"
+import { EditIcon } from "./EditIcon"
 
-function DictionaryEntry({key, entry, deleteEntry}) {
+interface DictionaryEntryType {
+  phrase: string
+  meaning: string
+}
+
+interface DictionaryEntryProps {
+  key: React.Key
+  entry: DictionaryEntryType
+  deleteEntry: (entry: DictionaryEntryType) => void
+}
+
+function DictionaryEntry({ key, entry, deleteEntry }: DictionaryEntryProps) {
   return (
     <Table hideHeader aria-label="Example static collection table">
       <TableHeader>

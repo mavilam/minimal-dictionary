@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import DictionaryEntry from './components/DictionaryEntry'
+import { useState, useEffect } from 'react'
 import NewEntryForm from './components/NewEntryForm'
+import DictionaryEntry from './components/DictionaryEntry'
+import './index.css'
+
+interface DictionaryEntryType {
+  phrase: string
+  meaning: string
+}
 
 function App() {
-  const [entries, setEntries] = useState([])
+  const [entries, setEntries] = useState<DictionaryEntryType[]>([])
 
   useEffect(() => {
     const storedEntries = localStorage.getItem('dictionaryEntries')
@@ -12,13 +18,13 @@ function App() {
     }
   }, [])
 
-  const addEntry = (entry) => {
+  const addEntry = (entry: DictionaryEntryType) => {
     const updatedEntries = [...entries, entry]
     setEntries(updatedEntries)
     localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))
   }
 
-  const deleteEntry = (entryToDelete) => {
+  const deleteEntry = (entryToDelete: DictionaryEntryType) => {
     const updatedEntries = entries.filter(entry => entry !== entryToDelete)
     setEntries(updatedEntries)
     localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))

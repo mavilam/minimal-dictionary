@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import { useState, FormEvent, ChangeEvent } from 'react'
 import classNames from 'classnames'
 
-function NewEntryForm({ addEntry }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [phrase, setPhrase] = useState('')
-  const [meaning, setMeaning] = useState('')
+interface NewEntryFormProps {
+  addEntry: (entry: { phrase: string; meaning: string }) => void
+}
+
+function NewEntryForm({ addEntry }: NewEntryFormProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [phrase, setPhrase] = useState<string>('')
+  const [meaning, setMeaning] = useState<string>('')
 
   const toggleForm = () => setIsOpen(!isOpen)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
     if (phrase && meaning) {
       addEntry({ phrase, meaning })
@@ -40,7 +44,7 @@ function NewEntryForm({ addEntry }) {
               type="text"
               id="phrase"
               value={phrase}
-              onChange={(e) => setPhrase(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPhrase(e.target.value)}
               className={inputStyles}
               placeholder="Enter a phrase or word"
             />
@@ -52,9 +56,9 @@ function NewEntryForm({ addEntry }) {
             <textarea
               id="meaning"
               value={meaning}
-              onChange={(e) => setMeaning(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMeaning(e.target.value)}
               className={inputStyles}
-              rows="3"
+              rows={3}
               placeholder="Enter the meaning"
             />
           </div>
