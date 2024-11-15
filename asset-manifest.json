@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/minimal-dictionary/static/css/main.ad3438fb.css",
-    "main.js": "/minimal-dictionary/static/js/main.4d7d4194.js",
+    "main.js": "/minimal-dictionary/static/js/main.e7730eb7.js",
     "index.html": "/minimal-dictionary/index.html",
     "main.ad3438fb.css.map": "/minimal-dictionary/static/css/main.ad3438fb.css.map",
-    "main.4d7d4194.js.map": "/minimal-dictionary/static/js/main.4d7d4194.js.map"
+    "main.e7730eb7.js.map": "/minimal-dictionary/static/js/main.e7730eb7.js.map"
   },
   "entrypoints": [
     "static/css/main.ad3438fb.css",
-    "static/js/main.4d7d4194.js"
+    "static/js/main.e7730eb7.js"
   ]
 }
