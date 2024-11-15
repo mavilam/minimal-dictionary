@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import NewEntryForm from './components/NewEntryForm'
 import DictionaryEntry from './components/DictionaryEntry'
-import './index.css'
+import { DictionaryEntryType } from './types'
+import './index'
 
-interface DictionaryEntryType {
-  phrase: string
-  meaning: string
-}
-
-function App() {
+const App: React.FC = () => {
   const [entries, setEntries] = useState<DictionaryEntryType[]>([])
 
   useEffect(() => {
@@ -25,7 +21,15 @@ function App() {
   }
 
   const deleteEntry = (entryToDelete: DictionaryEntryType) => {
-    const updatedEntries = entries.filter(entry => entry !== entryToDelete)
+    const updatedEntries = entries.filter(entry => entry.phrase !== entryToDelete.phrase)
+    setEntries(updatedEntries)
+    localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))
+  }
+
+  const editEntry = (oldEntry: DictionaryEntryType, newEntry: DictionaryEntryType) => {
+    const updatedEntries = entries.map(entry =>
+      entry.phrase === oldEntry.phrase ? newEntry : entry
+    )
     setEntries(updatedEntries)
     localStorage.setItem('dictionaryEntries', JSON.stringify(updatedEntries))
   }
@@ -37,10 +41,15 @@ function App() {
         <p className="text-gray-500 text-sm md:text-base">where concepts meet meanings</p>
       </header>
       <div className="max-w-md mx-auto">
-        <NewEntryForm addEntry={addEntry} />
+        <NewEntryForm onSave={addEntry} />
         <div className="mt-4 md:mt-6 space-y-4">
           {entries.map((entry, index) => (
-            <DictionaryEntry key={index} entry={entry} deleteEntry={deleteEntry} />
+            <DictionaryEntry
+              key={index}
+              entry={entry}
+              deleteEntry={deleteEntry}
+              editEntry={editEntry}
+            />
           ))}
         </div>
       </div>

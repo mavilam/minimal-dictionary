@@ -1,25 +1,40 @@
-import { useState, FormEvent, ChangeEvent } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
+import { DictionaryEntryType } from '../types'
 
 interface NewEntryFormProps {
-  addEntry: (entry: { phrase: string; meaning: string }) => void
+  onSave: (entry: DictionaryEntryType) => void
 }
 
-function NewEntryForm({ addEntry }: NewEntryFormProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [phrase, setPhrase] = useState<string>('')
-  const [meaning, setMeaning] = useState<string>('')
+const NewEntryForm: React.FC<NewEntryFormProps> = ({ onSave }) => {
+  const [entry, setEntry] = useState<DictionaryEntryType>({ phrase: '', meaning: '' })
+  const [isOpen, setIsOpen] = useState(false)
 
-  const toggleForm = () => setIsOpen(!isOpen)
+  const toggleForm = () => {
+    setIsOpen(!isOpen)
+  }
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
-    if (phrase && meaning) {
-      addEntry({ phrase, meaning })
-      setPhrase('')
-      setMeaning('')
-      setIsOpen(false)
-    }
+  const handlePhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setEntry(prevEntry => ({
+      ...prevEntry,
+      [name]: value
+    }))
+  }
+
+  const handleMeaningChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setEntry(prevEntry => ({
+      ...prevEntry,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSave(entry)
+    setEntry({ phrase: '', meaning: '' })
+    setIsOpen(false)
   }
 
   const buttonStyles = 'w-full py-2 font-medium rounded-md text-sm md:text-base'
@@ -42,24 +57,24 @@ function NewEntryForm({ addEntry }: NewEntryFormProps) {
             </label>
             <input
               type="text"
-              id="phrase"
-              value={phrase}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setPhrase(e.target.value)}
+              name="phrase"
+              value={entry.phrase}
+              onChange={handlePhraseChange}
+              placeholder="Phrase"
               className={inputStyles}
-              placeholder="Enter a phrase or word"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-3">
             <label className="block text-sm font-medium mb-1" htmlFor="meaning">
               Meaning
             </label>
             <textarea
-              id="meaning"
-              value={meaning}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMeaning(e.target.value)}
-              className={inputStyles}
+              name="meaning"
+              value={entry.meaning}
+              onChange={handleMeaningChange}
               rows={3}
               placeholder="Enter the meaning"
+              className={inputStyles}
             />
           </div>
           <button

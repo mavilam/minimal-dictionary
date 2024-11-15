@@ -3,37 +3,53 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Toolti
 import { DeleteIcon } from './DeleteIcon'
 import { EditIcon } from './EditIcon'
 import DeleteConfirmationModal from './DeleteConfirmationModal'
-
-interface DictionaryEntryType {
-  phrase: string
-  meaning: string
-}
+import EditEntryModal from './EditEntryModal'
+import { DictionaryEntryType } from '../types'
 
 interface DictionaryEntryProps {
   entry: DictionaryEntryType
   deleteEntry: (entry: DictionaryEntryType) => void
+  editEntry: (oldEntry: DictionaryEntryType, newEntry: DictionaryEntryType) => void
 }
 
-const DictionaryEntry: React.FC<DictionaryEntryProps> = ({ entry, deleteEntry }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+const DictionaryEntry: React.FC<DictionaryEntryProps> = ({ entry, deleteEntry, editEntry }) => {
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false)
   const [entryToDelete, setEntryToDelete] = useState<DictionaryEntryType | null>(null)
+  const [entryToEdit, setEntryToEdit] = useState<DictionaryEntryType | null>(null)
 
   const handleDeleteClick = (entry: DictionaryEntryType) => {
     setEntryToDelete(entry)
-    setIsModalVisible(true)
+    setIsDeleteModalVisible(true)
   }
 
   const handleConfirmDelete = () => {
     if (entryToDelete) {
       deleteEntry(entryToDelete)
-      setIsModalVisible(false)
+      setIsDeleteModalVisible(false)
       setEntryToDelete(null)
     }
   }
 
   const handleCancelDelete = () => {
-    setIsModalVisible(false)
+    setIsDeleteModalVisible(false)
     setEntryToDelete(null)
+  }
+
+  const handleEditClick = (entry: DictionaryEntryType) => {
+    setEntryToEdit(entry)
+    setIsEditModalVisible(true)
+  }
+
+  const handleSaveEdit = (oldEntry: DictionaryEntryType, newEntry: DictionaryEntryType) => {
+    editEntry(oldEntry, newEntry)
+    setIsEditModalVisible(false)
+    setEntryToEdit(null)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEditModalVisible(false)
+    setEntryToEdit(null)
   }
 
   return (
@@ -51,7 +67,10 @@ const DictionaryEntry: React.FC<DictionaryEntryProps> = ({ entry, deleteEntry })
             <TableCell>
               <div className="relative flex items-right gap-2">
                 <Tooltip content="Edit Entry">
-                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                    onClick={() => handleEditClick(entry)}
+                  >
                     <EditIcon />
                   </span>
                 </Tooltip>
@@ -70,9 +89,16 @@ const DictionaryEntry: React.FC<DictionaryEntryProps> = ({ entry, deleteEntry })
       </Table>
 
       <DeleteConfirmationModal
-        isVisible={isModalVisible}
+        isVisible={isDeleteModalVisible}
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
+      />
+
+      <EditEntryModal
+        isVisible={isEditModalVisible}
+        entry={entryToEdit}
+        onSave={handleSaveEdit}
+        onCancel={handleCancelEdit}
       />
     </>
   )
